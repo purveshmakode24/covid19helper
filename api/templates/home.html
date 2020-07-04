@@ -1,0 +1,48 @@
+{% comment %} {% extends "base.html" %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+			<h1>Hello {{user.username}}!</h1>
+			<div>
+			<form method='post' action="{% url 'job' user.id %}">
+			{% csrf_token %}
+			<h3>create Job</h3>
+			{{ form.non_field_errors }}
+			{{ form.name.errors }}
+			{{ form.country.errors }}
+			{{ form.description.errors }}
+			{{ form.city.errors }}
+			{{ form.category.errors }}
+			<p>{{ form.category }}</p>
+			<p>{{ form.country }}</p>
+			<p>{{ form.city }}</p>
+			<p>{{ form.name }}</p>
+			<p>{{ form.description }}</p>
+			<button>Create Job</button>
+			</form>
+			</div>
+			{% for item in jobs %}
+				<form action="{% url 'apply' %}">
+				<div style="background-color: lightgrey; ">
+
+					<h3>{{ item.name }}</h3>
+					<p>{{item.job_offered_by}}</p>
+					<p>{{ item.category }}</p>
+					<p>{{ item.description }}</p>
+					<p>{{ item.job_offered_by }}
+					<button>Apply</button>
+				</div>
+				</form>
+			{% endfor %}
+	{% else %}
+		<h1>Please Signup</h1>
+		{% for item in jobs %}
+		<div style="color: lightgrey; ">
+			<p>item.name</p>
+			<p> item.categories<p>
+			<p>item.description</p>
+			<button>Apply</button>
+		</div>
+		{% endfor %}
+	{% endif %}
+{% endblock  %} {% endcomment %}
