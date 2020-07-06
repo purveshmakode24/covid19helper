@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Category, Job, Applicant
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 # serialaizers provides read and write functionality by default
 
@@ -31,4 +32,5 @@ class UserSerializer(serializers.ModelSerializer):
     # hashed password by overwriting built-in method down here
     def create(self, validate_data):
         user = User.objects.create_user(**validate_data)
+        token = Token.objects.create(user = user)
         return user
